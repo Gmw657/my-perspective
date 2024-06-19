@@ -1,6 +1,7 @@
 import openai
+import os
 
-openai.api_key = 'xxxxxxxAPI'
+openai.api_key = os.getenv('OPENAI_API_KEY')
 
 def generate_content(topic):
     response = openai.Completion.create(
