@@ -1,8 +1,6 @@
 import openai
 import os
 
-openai.api_key = os.getenv('OPENAI_API_KEY')
-
 def generate_content(topic):
     prompt = (
         f"Write a detailed examination of the power struggle between the TPLF and PP, "
@@ -11,15 +9,25 @@ def generate_content(topic):
         f"historical grievances, and their impact on Tigray. "
         f"Provide a thorough analysis in an academic writing style."
     )
+    print(f"Prompt: {prompt}")
     response = openai.Completion.create(
         model="text-davinci-004",
         prompt=prompt,
         max_tokens=1500
     )
+    print(f"Response: {response}")
     return response.choices[0].text
 
-topic = "Power and Paradox: The Struggle for Dominance in a New Ethiopia"
-content = generate_content(topic)
+if __name__ == "__main__":
+    openai.api_key = os.getenv('OPENAI_API_KEY')
+    if not openai.api_key:
+        raise ValueError("OpenAI API key is not set")
 
-with open('new_post.html', 'w') as file:
-    file.write(f"<h1>{topic}</h1>\n{content}")
+    topic = "Power and Paradox: The Struggle for Dominance in a New Ethiopia"
+    try:
+        content = generate_content(topic)
+        with open('new_post.html', 'w') as file:
+            file.write(f"<h1>{topic}</h1>\n{content}")
+        print("Content generation successful")
+    except Exception as e:
+        print(f"Error: {e}")
