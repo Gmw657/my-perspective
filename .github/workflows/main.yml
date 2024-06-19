@@ -1,0 +1,38 @@
+name: Update Site Content
+on:
+  schedule:
+    - cron: '0 0 * * MON'  # Every Monday
+  workflow_dispatch:
+
+jobs:
+  update-content:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+
+      - name: Set up Python
+        uses: actions/setup-python@v2
+        with:
+          python-version: '3.x'
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install openai
+
+      - name: Generate Content
+        run: |
+          python generate_content.py > new_post.html
+
+      - name: Update index.html
+        run: |
+          sed -i '/<!-- Generated content will go here -->/r new_post.html' index.html
+
+      - name: Commit and Push
+        run: |
+          git config --global user.name 'github-actions'
+          git config --global user.email 'github-actions@github.com'
+          git add index.html
+          git commit -m 'Add new content'
+          git push
