@@ -22,6 +22,8 @@ jobs:
           pip install openai
 
       - name: Generate Content
+        env:
+          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
         run: |
           python generate_content.py > new_post.html
 
