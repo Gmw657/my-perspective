@@ -1,6 +1,6 @@
 import openai
 
-openai.api_key = 'xxxxxxxxxxxx'
+openai.api_key = 'xxxxxxxAPI'
 
 def generate_content(topic):
     response = openai.Completion.create(
