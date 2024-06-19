@@ -32,6 +32,6 @@ if __name__ == "__main__":
         content = generate_content(topic)
         with open('new_post.html', 'w') as file:
             file.write(f"<h1>{topic}</h1>\n{content}")
-        print("Content generation successful")
+        print("Content written to new_post.html")
     except Exception as e:
         print(f"Error: {e}")
